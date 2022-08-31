@@ -1,85 +1,135 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div class="wraps">
+    <header class="header">
+      <div>left</div>
+      <div>中间</div>
+      <div>right</div>
+    </header>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <main class="main">
+      <div class="main-items" v-for="(item, index) in 100" :key="index">
+        <div class="main-port">头像</div>
+        <div class="main-desc">
+          <div>小满{{ item }}</div>
+          <div>你妈妈喊你回家穿丝袜啦</div>
+        </div>
+      </div>
+    </main>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <footer class="footer">
+      <div class="footer-items" v-for="(item, index) in footer" :key="index">
+        <div>{{ item.icon }}</div>
+        <div>{{ item.text }}</div>
+      </div>
+    </footer>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup lang="ts">
+import { reactive } from "vue";
+
+type Footer<T> = {
+  icon: T;
+  text: T;
+};
+
+const footer = reactive<Footer<string>[]>([
+  {
+    icon: "1",
+    text: "首页",
+  },
+  {
+    icon: "2",
+    text: "商品",
+  },
+  {
+    icon: "3",
+    text: "信息",
+  },
+  {
+    icon: "4",
+    text: "我的",
+  },
+]);
+</script>
+
+<style lang="less">
+@import url("@/assets/base.css");
+
+html,
+body,
+#app {
+  height: 100%;
+  overflow: hidden;
+  font-size: 14px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.wraps {
+  height: inherit;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.header {
+  background-color: pink;
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: space-around;
+
+  div:nth-child(1) {
+    width: 40px;
+  }
+
+  div:nth-child(2) {
+    text-align: center;
+  }
+
+  div:nth-child(3) {
+    width: 40px;
+    text-align: right;
+  }
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
+.main {
+  flex: 1;
+  overflow: auto;
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
+  &-items {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    padding: 5px;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  &-port {
+    background: black;
+    width: 30px;
+    height: 30px;
+    border-radius: 200px;
   }
+  &-desc {
+    margin-left: 10px;
+    div:last-child {
+      font-size: 10px;
+      color: #333;
+      margin-top: 5px;
+    }
+  }
+}
 
-  header .wrapper {
+.footer {
+  border-top: 1px solid #ccc;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+
+  &-items {
     display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
   }
 }
 </style>
